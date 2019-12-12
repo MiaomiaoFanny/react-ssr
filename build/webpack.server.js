@@ -1,10 +1,7 @@
-const path = require('path')
-const nodeExternals = require('webpack-node-externals')
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+const { log: ll } = console;
 
-const {log: ll} = console
-/* 
-npm i babel-loader -S
- */
 const config = {
   target: 'node',
   mode: 'development',
@@ -21,10 +18,10 @@ const config = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-          presets: [ '@babel/preset-react', ['@babel/preset-env']]
-        }
-      }
-    ]
-  }
-}
-module.exports = config
+          presets: ['@babel/preset-react', ['@babel/preset-env']],
+        },
+      },
+    ],
+  },
+};
+module.exports = config;

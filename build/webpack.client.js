@@ -1,9 +1,6 @@
-const path = require('path')
+const path = require('path');
+const { log: ll } = console;
 
-const {log: ll} = console
-/* 
-npm i babel-loader -S
- */
 const config = {
   mode: 'development',
   entry: './client/index.js',
@@ -18,10 +15,11 @@ const config = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-          presets: [ '@babel/preset-react', ['@babel/preset-env']]
-        }
-      }
-    ]
-  }
-}
-module.exports = config
+          presets: ['@babel/preset-react', ['@babel/preset-env']],
+        },
+      },
+    ],
+  },
+};
+
+module.exports = config;
