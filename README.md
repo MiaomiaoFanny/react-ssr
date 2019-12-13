@@ -16,3 +16,14 @@ react ssr 原理
    2. 客户端 将内容以hydrate注水的方式 组合SRR CSR渲染
       1. hydrate 不会重新渲染dom, 只会挂载一些事件监听等交互内容
 4. 
+
+### day2
+1. mock 数据
+2. ssr支持路由
+   1. server端监听所有路由， 通过req.url获取路由
+   2. StaticRouter 通过req.url 决定所需渲染路由页面
+3. csr支持路由
+   1. 使用BrowserRouter变成多页应用
+4. ssr支持数据流 > 异步数据
+   1. 使用`redux-thunk`支持异步
+   3. useEffect 更新异步数据
