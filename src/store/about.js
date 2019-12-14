@@ -11,9 +11,10 @@ const changeList = info => ({
 
 export const getAppInfo = server => {
   return (dispatch, getState, axiosInstance) => {
-    return axios.get('http://localhost:9090/api/app/info')
+    return axios.get('http://localhost:9000/api/app/info')
       .then(res => {
         const { info } = res.data;
+        console.log(['getAppInfo'], info);
         dispatch(changeList(info));
       });
   };

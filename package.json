@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "open": "start http://localhost:9000",
+    "open": "start http://localhost:9000/about",
     "start": "concurrently npm:dev:server npm:dev:client npm:dev:start npm:open -n server,client,start,open -c blue.bold,magenta.bold,yellow.bold,yellow -p [{time}][{name}] -t hh:mm:ss.sss",
     "log": "concurrently npm:dev:server npm:dev:client npm:dev:start -n server,client,start --no-color -k -p [{time}][{name}]-{pid} -t hh:mm:ss.sss > log.txt",
     "dev:server": "webpack --config build/webpack.server.js --watch",

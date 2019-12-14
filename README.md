@@ -43,3 +43,13 @@ react ssr 原理
 3. 客户端异步数据渲染
    1. 初始化store时, 先拿到window.__context的数据作为初始值
 4. 多个数据同时加到props里面
+
+### day3-作业
+1. 降级处理接口报错
+   1. 方法一: Promise.all不处理异常, 在finally回调返回. 无论是否发生错误均返回, 可以实现降级处理.
+      缺点: 任何一个reject会导致立即返回, 会导致其他还未resolve的正常请求被截断, 从而改成走client端渲染
+  2. 方法二: 实现ES2010的 Promise.allSettled方法, 所有请求结束后才返回, 将每个promise的结果储存在results中
+     1. 没有Promise.all的缺点
+2. 前后端统一axios
+   1. client端 store中获取数据的端口改成server端9000
+   2. server端单独处理 /api开头的请求, 将请求转发到mock server 9090端口, 从而解决跨域问题
