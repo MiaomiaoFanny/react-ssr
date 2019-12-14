@@ -7,10 +7,10 @@ import { getIndexList } from '../store/index';
 
 function Index(props) {
   const [count, setCount] = useState(1);
-  useEffect(() => {
-    // TODO: 异步数据首页显示
-    props.getIndexList()
-  }, []);
+  // useEffect(() => {
+  //   // TODO: 异步数据首页显示
+  //   props.getIndexList()
+  // }, []);
   return (
     <div>
       <h1>Fanny, {props.title}</h1>
@@ -24,6 +24,11 @@ function Index(props) {
       </ul>
     </div>
   );
+}
+
+// 模仿nuxt, 提前加载异步数据
+Index.loadData = (store) => {
+  return store.dispatch(getIndexList());
 }
 
 export default connect(

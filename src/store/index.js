@@ -14,6 +14,7 @@ export const getIndexList = server => {
     return axios.get('http://localhost:9090/api/course/list')
       .then(res => {
         const { list } = res.data;
+        console.log('[getIndexList]', list);
         dispatch(changeList(list));
       });
   };

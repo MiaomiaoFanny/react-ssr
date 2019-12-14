@@ -27,3 +27,19 @@ react ssr 原理
 4. ssr支持数据流 > 异步数据
    1. 使用`redux-thunk`支持异步
    3. useEffect 更新异步数据
+
+### day3
+1. 服务端异步数据渲染
+   1. server端拿到路由对应的信息, 此处需要的时路由对于的组件, 加载的数据
+      1. 定义路由表, 自然能拿到对应路由的信息 用到`matchPath`
+         1. App.js修改为根据路由表动态生成
+      2. 取出路由的组件, 通过组件拿到loadData方法
+         1. loadData中会调用dispatch存放异步数据到server端的store
+      3. 利用Promise.all 现将所有需要的数据获取
+      4. 拿到所有数据后通过之前的方法生成html字符串
+         1. 由于此时已经拿到所有数据, 这些数据需要提供给客户端store作为初始数据, 否则页面数据会被客户端清空
+            1. 数据挂载到window.__context上
+2. Server Client端的store不是同一个了
+3. 客户端异步数据渲染
+   1. 初始化store时, 先拿到window.__context的数据作为初始值
+4. 多个数据同时加到props里面
