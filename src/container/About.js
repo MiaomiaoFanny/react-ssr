@@ -7,7 +7,6 @@ import { getAppInfo } from '../store/about';
 
 function About(props) {
   useEffect(() => {
-    // TODO: 异步数据首页显示
     if(!props.info.name) {
       props.getAppInfo();
     }

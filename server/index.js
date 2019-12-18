@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-filename-extension */
 /* Docs:
   https://reacttraining.com/react-router/web/guides/server-rendering
+https://github.com/chimurai/http-proxy-middleware#options
  */
-import axios from 'axios';
+import httpProxyMiddleware from 'http-proxy-middleware';
 import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -22,13 +23,17 @@ Promise.allSettled = function(promises) {
   return new Promise((resolve, reject) => {
     let count = 0;
     const results = [];
+    if(promises.length === 0) {
+      return resolve(results);
+    }
     promises.forEach((promise, i) => {
       promise.then(data => {
-        results[i] = { status: 'fulfilled', data };
+        results[i] = { status: 'resolved', data };
       }).catch((error) => {
         results[i] = { status: 'rejected', error };
       }).finally(() => {
         count += 1;
+        ll(i, results[i].status);
         if(count === promises.length) {
           resolve(results);
         }
@@ -38,6 +43,7 @@ Promise.allSettled = function(promises) {
 };
 
 const sendResult = (req, res) => {
+    ll('sendResult.....');
     const content = renderToString(
       <Provider store={store}>
         <StaticRouter location={req.url}>
@@ -63,30 +69,23 @@ const sendResult = (req, res) => {
     `);
 };
 
-const apiHandler = (req, res) => {
-  console.log(['apiHandler'], req.url);
-  axios.get(`http://localhost:9090${req.url}`)
-    .then(result => {
-      res.json(result.data);
-    })
-    .catch(() => {
-      console.log(['apiHandler'], req.url, 'ERROR');
-    });
-};
-
+app.use(
+  '/api',
+  httpProxyMiddleware({
+    target: 'http://localhost:9090',
+    changeOrigin: true,
+    // ws: true,
+    // pathRewrite: {'^/api': '/'}
+  })
+);
 app.get('*', (req, res) => {
-  if(req.url === '/favicon.ico') {
-    return res.end(req.url);
-  }
   console.log('>>>>>>>>', req.url, '<<<<<<<<<<');
-  if(req.url.startsWith('/api/')) {
-    return apiHandler(req, res);
-  }
   // 获取路由对应组件, 拿到组件的loadData方法, 执行loadData获取数据
   const promises = [];
   // some > every 匹配所有符合条件的路由
   routes.every(route => {
     const match = matchPath(req.path, route);
+    ll('match', match, req.path, route);
     if(match) {
       // 匹配到路由
       const { loadData } = route.component;

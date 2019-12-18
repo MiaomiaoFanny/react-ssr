@@ -50,6 +50,12 @@ react ssr 原理
       缺点: 任何一个reject会导致立即返回, 会导致其他还未resolve的正常请求被截断, 从而改成走client端渲染
   2. 方法二: 实现ES2010的 Promise.allSettled方法, 所有请求结束后才返回, 将每个promise的结果储存在results中
      1. 没有Promise.all的缺点
+  3. 方法三: 将每个promise包装一次Promise, 以将异常处理成resolve, 这样就可以直接使用Promise.all
 2. 前后端统一axios
-   1. client端 store中获取数据的端口改成server端9000
-   2. server端单独处理 /api开头的请求, 将请求转发到mock server 9090端口, 从而解决跨域问题
+   1. 方法一:
+      1. 每一个store里的axios请求换成封装好的axios实例, 配置baseUrl, 也可进行响应拦截
+      2. server端单独处理 /api开头的请求, 将请求转发到mock server 9090端口, 从而解决跨域问题
+   2. 方法二:
+      1. store.js thunk 换成 thunk.withExtraArgument(axiosInstance) 附加一个axios实例为参数传给每一个store
+      2. 区分服务端和客户端store的axios实例, 服务端store可直接请求mock端口
+      3. server.js 转发客户端发起的/api请求： 使用代理 http-proxy-middleware 进行转发

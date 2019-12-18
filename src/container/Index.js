@@ -8,9 +8,8 @@ import { getIndexList } from '../store/index';
 function Index(props) {
   const [count, setCount] = useState(1);
   useEffect(() => {
-    // TODO: 异步数据首页显示
-    if(!props.list.length) {
-    // Client 端调用axio获取数据
+    if (props && !props.list.length) {
+    // Client 端调用axios获取数据
       props.getIndexList();
     }
   }, []);
@@ -21,7 +20,7 @@ function Index(props) {
       <button onClick={() => setCount(count + 1)}>Try Click Me</button>
       <br/>
       <ul>
-        {props.list.map(item => {
+        {props.list && props.list.map(item => {
           return <li key={item.id}>{item.name}</li>
         })}
       </ul>
@@ -31,7 +30,7 @@ function Index(props) {
 
 // 模仿nuxt, 提前加载异步数据
 Index.loadData = (store) => {
-  // Server 端调用axio获取数据
+  // Server 端调用axios获取数据
   return store.dispatch(getIndexList());
 }
 

@@ -7,6 +7,7 @@ const { log: ll } = console;
 
 app.get('/api/course/list', (req, res) => {
   setTimeout(() => {
+    ll('/api/course/list done!');
     res.json({
       code: 0,
       list: [
@@ -15,10 +16,11 @@ app.get('/api/course/list', (req, res) => {
         { name: '打豆豆', id: 3 },
       ]
     });
-  }, 2000);
+  }, 0);
 });
 
 app.get('/api/app/info', (req, res) => {
+  ll('/api/app/info done!');
   res.json({
     code: 0,
     info: {

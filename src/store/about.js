@@ -1,5 +1,4 @@
 // 首页逻辑
-import axios from 'axios';
 // actionType
 const GET_APP_INFO = 'ABOUT/APP_INFO';
 
@@ -10,8 +9,8 @@ const changeList = info => ({
 });
 
 export const getAppInfo = server => {
-  return (dispatch, getState, axiosInstance) => {
-    return axios.get('http://localhost:9000/api/app/info')
+  return (dispatch, getState, $axios) => {
+    return $axios.get('/api/app/info')
       .then(res => {
         const { info } = res.data;
         console.log(['getAppInfo'], info);
